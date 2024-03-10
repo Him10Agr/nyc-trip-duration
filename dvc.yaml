@@ -1,0 +1,3 @@
+stages:
+  make_dataset:
+    cmd: python .\src\data\make_dataset.py .\data\raw
