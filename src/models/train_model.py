@@ -30,9 +30,9 @@ def main():
     output_path = home_dir.as_posix() + '/models'
     pathlib.Path(output_path).mkdir(parents=True, exist_ok=True)
     
-    TARGET = 'Class'
+    TARGET = 'trip_duration'
     train_features = pd.read_csv(data_path + '/train.csv')
-    X = train_features.drop(TARGET, axis=1)
+    X = train_features.drop(columns=[TARGET], axis=1)
     y = train_features[TARGET]
 
     trained_model = train_model(X, y, params['n_estimators'], params['max_depth'], params['seed'])

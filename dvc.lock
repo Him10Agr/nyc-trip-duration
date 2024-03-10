@@ -1,4 +1,26 @@
 schema: '2.0'
 stages:
   make_dataset:
-    cmd: python .\src\data\make_dataset.py .\data\raw
+    cmd: python src/data/make_dataset.py /data/raw
+    deps:
+    - path: ./data/raw
+      hash: md5
+      md5: 775bd993f722629b752d2bdee167a7a2.dir
+      size: 271383386
+      nfiles: 3
+    - path: src/data/make_dataset.py
+      hash: md5
+      md5: 94b6b02976df60b09699b0d23090d934
+      size: 1389
+  train_model:
+    cmd: python src/models/train_model.py /data/processed
+    deps:
+    - path: ./data/processed
+      hash: md5
+      md5: cecbe49cef837badda7bf5998f7aedc3.dir
+      size: 288924242
+      nfiles: 3
+    - path: src/models/train_model.py
+      hash: md5
+      md5: fa5b8a8356ed42572e057c5c15943c78
+      size: 1333

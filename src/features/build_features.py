@@ -45,10 +45,10 @@ def feature_build(df: pd.DataFrame) -> pd.DataFrame:
     create_dist_feature_df(df)
     return df
 
-def feature_drop(df: pd.DataFrame, feature_list_drop: list) -> pd.DataFrame:
-    feature_name = [f for f in df.columns if f not in feature_list_drop]
-    df.drop(columns=feature_name, inplace=True)
-    
+def feature_drop(df: pd.DataFrame, feature_drop_list: list) -> pd.DataFrame:
+    new_df = df.drop(columns=feature_drop_list)
+    return new_df
+
 if __name__ == '__main__':
     curr_dir = pathlib.Path(__file__)
     home_dir = curr_dir.parent.parent.parent
