@@ -3,6 +3,7 @@ import pathlib
 import sys
 import yaml
 import joblib
+import pickle
 
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
@@ -16,7 +17,9 @@ def train_model(train_features, target, n_estimators, max_depth, seed):
 
 def save_model(model, output_path):
     # Save the trained model to the specified output path
-    joblib.dump(model, output_path + '/model.joblib')
+    #joblib.dump(model, output_path + '/model.joblib')
+    with open(output_path + '/model.pkl', 'wb') as file: 
+        pickle.dump(model, file)
 
 def main():
 
