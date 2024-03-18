@@ -6,10 +6,11 @@ from hyperopt import fmin, tpe, Trials, STATUS_OK, space_eval
 from hyperopt.pyll.base import scope
 import mlflow
 import pandas as pd
+import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 from xgboost import XGBRegressor
-from sklearn.metrics import mean_squared_error
+from sklearn.metrics import mean_squared_error, mean_squared_log_error
 
 def find_best_model_with_params(X_train, y_train, X_test, y_test):
     
@@ -38,7 +39,7 @@ def find_best_model_with_params(X_train, y_train, X_test, y_test):
         model.fit(X_train, y_train)
         y_pred = model.predict(X_test)
         
-        model_rmse = mean_squared_error(y_test, y_pred)
+        model_rmse = np.sqrt(mean_squared_log_error(y_test, y_pred))
         return {'loss': model_rmse, 'status': STATUS_OK}
     
     space = hyperparameters['XGBRegressor']
@@ -71,9 +72,9 @@ def find_best_model_with_params(X_train, y_train, X_test, y_test):
         model = XGBRegressor(**params)
         model.fit(X_train, y_train)
         y_pred = model.predict(X_test)
-        final_model_rmse = mean_squared_error(y_test, y_pred)
+        final_model_rmse = np.sqrt(mean_squared_log_error(y_test, y_pred))
         mlflow.sklearn.log_model(model, 'model')
-        mlflow.log_metric('RMSE', final_model_rmse)
+        mlflow.log_metric('RMSLE', final_model_rmse)
     
     return model
                         
