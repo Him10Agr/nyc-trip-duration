@@ -1,0 +1,15 @@
+artifact_uri: file:///home/himanshu/Projects/ML_Proj/nyc-trip-duration/mlruns/0/0a1197d3c9e54286a684a777b7f1b049/artifacts
+end_time: 1710509143313
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 0a1197d3c9e54286a684a777b7f1b049
+run_name: XGBRegressor 2024-03-15 18:55
+run_uuid: 0a1197d3c9e54286a684a777b7f1b049
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1710509129204
+status: 3
+tags: []
+user_id: himanshu

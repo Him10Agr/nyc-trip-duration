@@ -1,0 +1,15 @@
+artifact_uri: file:///home/himanshu/Projects/ML_Proj/nyc-trip-duration/mlruns/0/2e435b0479bc4e25a6839417d72520ec/artifacts
+end_time: 1710507568518
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 2e435b0479bc4e25a6839417d72520ec
+run_name: RandomForestRegressor 2024-03-15 18:24
+run_uuid: 2e435b0479bc4e25a6839417d72520ec
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1710507281832
+status: 3
+tags: []
+user_id: himanshu

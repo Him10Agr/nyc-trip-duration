@@ -34,19 +34,18 @@ def find_best_model_with_params(X_train, y_train, X_test, y_test):
         if 'max_delta_step' in params: params['max_delta_step'] = int(params['max_delta_step'])
         
         
-        model = RandomForestRegressor(**params)
+        model = XGBRegressor(**params)
         model.fit(X_train, y_train)
         y_pred = model.predict(X_test)
         
         model_rmse = mean_squared_error(y_test, y_pred)
-        mlflow.log_metric('RMSE', model_rmse)
         return {'loss': model_rmse, 'status': STATUS_OK}
     
-    space = hyperparameters['RandomForestRegressor']
+    space = hyperparameters['XGBRegressor']
     
     time_field_mlflow = datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M')
     
-    with mlflow.start_run(run_name=f'RandomForestRegressor {time_field_mlflow}'):
+    with mlflow.start_run(run_name=f'XGBRegressor {time_field_mlflow}'):
         argmin = fmin(
             fn=evaluate_model,
             space=space,
@@ -57,7 +56,7 @@ def find_best_model_with_params(X_train, y_train, X_test, y_test):
         )
     
     run_ids = []
-    with mlflow.start_run(run_name=f'RandomForestRegressor Final {time_field_mlflow}') as run:
+    with mlflow.start_run(run_name=f'XGBRegressor Final {time_field_mlflow}') as run:
         run_id = run.info.run_id
         run_name = run.data.tags['mlflow.runName']
         run_ids += [(run_name, run_id)]
@@ -69,16 +68,19 @@ def find_best_model_with_params(X_train, y_train, X_test, y_test):
         if 'max_delta_step' in params: params['max_delta_step'] = int(params['max_delta_step'])
         mlflow.log_params(params)
         
-        model = RandomForestRegressor(**params)
+        model = XGBRegressor(**params)
         model.fit(X_train, y_train)
+        y_pred = model.predict(X_test)
+        final_model_rmse = mean_squared_error(y_test, y_pred)
         mlflow.sklearn.log_model(model, 'model')
+        mlflow.log_metric('RMSE', final_model_rmse)
     
     return model
                         
         
 def train_model(train_features, target, n_estimators, max_depth, seed):
     # Train your machine learning model
-    model = RandomForestRegressor(n_estimators=n_estimators, max_depth=max_depth, random_state=seed)
+    model = XGBRegressor(n_estimators=n_estimators, max_depth=max_depth, random_state=seed)
     model.fit(train_features, target)
     return model
 
@@ -92,8 +94,8 @@ def main():
 
     curr_dir = pathlib.Path(__file__)
     home_dir = curr_dir.parent.parent.parent
-    params_file = home_dir.as_posix() + '/params.yaml'
-    params = yaml.safe_load(open(params_file))["train_model"]
+    '''params_file = home_dir.as_posix() + '/params.yaml'
+    params = yaml.safe_load(open(params_file))["train_model"]'''
 
     input_file = sys.argv[1]
     data_path = home_dir.as_posix() + input_file
@@ -110,7 +112,6 @@ def main():
     #trained_model = train_model(X, y, params['n_estimators'], params['max_depth'], params['seed'])
     trained_model = find_best_model_with_params(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)
     save_model(trained_model, output_path)
-
     
 
 if __name__ == "__main__":

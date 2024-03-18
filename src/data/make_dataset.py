@@ -30,9 +30,9 @@ if __name__ == '__main__':
     train_data = feature_build(train_df)
     test_data = feature_build(test_df)
     
-    feature_drop_list_train = ['id', 'pickup_datetime', 'dropoff_datetime' , 'pickup_date']
+    feature_drop_list_train = ['id', 'pickup_datetime', 'dropoff_datetime']
     train_data = feature_drop(df = train_data, feature_drop_list= feature_drop_list_train)
-    feature_drop_list_test = ['id', 'pickup_datetime', 'pickup_date']
+    feature_drop_list_test = ['id', 'pickup_datetime']
     test_data = feature_drop(df = test_data, feature_drop_list= feature_drop_list_test)
     
     save_csv(train_df=train_data, test_df = test_data, file_path=output_path)

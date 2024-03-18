@@ -10,20 +10,20 @@ stages:
       nfiles: 3
     - path: src/data/make_dataset.py
       hash: md5
-      md5: 94b6b02976df60b09699b0d23090d934
-      size: 1389
+      md5: cff458d00857ae7b89906079b523d0e2
+      size: 1358
   train_model:
     cmd: python3 src/models/train_model.py /data/processed
     deps:
     - path: ./data/processed
       hash: md5
-      md5: cecbe49cef837badda7bf5998f7aedc3.dir
+      md5: 29f94c4056fa5d32d73e008ce6be1763.dir
       size: 288924242
       nfiles: 3
     - path: src/models/train_model.py
       hash: md5
-      md5: 0914b2d7548c4df0ef1de13ac00b45a5
-      size: 4483
+      md5: be3755b51e30d279cad8dbf198ba6496
+      size: 4541
   push_model:
     cmd: python3 src/models/push_model.py
     deps:

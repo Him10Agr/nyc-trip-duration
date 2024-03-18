@@ -42,7 +42,7 @@ def predict(input_data: PredictionInput):
     
     features = pd.DataFrame(features, index = [0])
     features = feature_build(features)
-    feature_drop_list = ['pickup_datetime', 'pickup_date']
+    feature_drop_list = ['pickup_datetime']
     features = feature_drop(features, feature_drop_list)
     
     predict = model.predict(features)[0].item()

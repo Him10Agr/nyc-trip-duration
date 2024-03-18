@@ -2,9 +2,7 @@ import pandas as pd
 import numpy as np
 import pathlib
 
-def correct_datetime(df: pd.DataFrame):
-    df['pickup_datetime'] = pd.to_datetime(df.pickup_datetime)
-    df.loc[:, 'pickup_date'] = df['pickup_datetime'].dt.date
+def boolean_flag(df: pd.DataFrame):
     df['store_and_fwd_flag'] = 1 * (df.store_and_fwd_flag.values == 'Y')
 
 def haversine_array(lat1, lng1, lat2, lng2):
@@ -36,12 +34,13 @@ def create_dist_feature_df(df: pd.DataFrame):
     
 
 def test(df):
-    correct_datetime(df)
+    boolean_flag(df)
     create_dist_feature_df(df)
     print(df.head())
     
 def feature_build(df: pd.DataFrame) -> pd.DataFrame:
-    correct_datetime(df)
+    
+    boolean_flag(df)
     create_dist_feature_df(df)
     return df
 

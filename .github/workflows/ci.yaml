@@ -63,7 +63,6 @@ jobs:
           uses: aws-actions/amazon-ecr-login@v2
 
         - name: pull latest image
-          id: build-image
           env:
             ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
             ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY_NAME }}
