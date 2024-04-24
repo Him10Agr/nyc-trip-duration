@@ -10,7 +10,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 from xgboost import XGBRegressor
-from sklearn.metrics import mean_squared_error, mean_squared_log_error
+from sklearn.metrics import mean_squared_error
 
 def find_best_model_with_params(X_train, y_train, X_test, y_test):
     
@@ -39,7 +39,7 @@ def find_best_model_with_params(X_train, y_train, X_test, y_test):
         model.fit(X_train, y_train)
         y_pred = model.predict(X_test)
         
-        model_rmse = np.sqrt(mean_squared_log_error(y_test, y_pred))
+        model_rmse = np.sqrt(mean_squared_error(y_test, y_pred))
         return {'loss': model_rmse, 'status': STATUS_OK}
     
     space = hyperparameters['XGBRegressor']
@@ -72,7 +72,7 @@ def find_best_model_with_params(X_train, y_train, X_test, y_test):
         model = XGBRegressor(**params)
         model.fit(X_train, y_train)
         y_pred = model.predict(X_test)
-        final_model_rmse = np.sqrt(mean_squared_log_error(y_test, y_pred))
+        final_model_rmse = np.sqrt(mean_squared_error(y_test, y_pred))
         mlflow.sklearn.log_model(model, 'model')
         mlflow.log_metric('RMSLE', final_model_rmse)
     
@@ -105,6 +105,7 @@ def main():
     
     TARGET = 'trip_duration'
     train_features = pd.read_csv(data_path + '/train.csv')
+    train_features[TARGET] = np.log(train_features[TARGET].values + 1)
     X = train_features.drop(columns=[TARGET], axis=1)
     y = train_features[TARGET]
     
@@ -114,7 +115,6 @@ def main():
     trained_model = find_best_model_with_params(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)
     save_model(trained_model, output_path)
     
-
 if __name__ == "__main__":
     
     main()
